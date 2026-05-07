@@ -16,15 +16,38 @@ define a "station" for each provider, extract the next session URL from
 its API response, and route the user onward — no website needed beyond a
 landing page.
 
-## How it works
+## How it works — the Stripe → Zapier → S2S loop
 
 A user defines a **flow** as a sequence of **stations**. Each station
-points at a third-party SaaS page (e.g. a Stripe Checkout link, a
-Mailchimp signup form, a Calendly booking page). When a session traverses
-a station, S2S extracts the relevant URL from the provider's API response
-(or the redirect target) and forwards the user onward. The orchestration
-is invisible to the user — they just click through what looks like a
+points at a third-party SaaS page (e.g. a Stripe Checkout link, a Stripe
+Customer Portal session, a Mailchimp signup form). The orchestration is
+invisible to the customer — they just click through what looks like a
 connected sequence of pages.
+
+A live example, end-to-end:
+
+**1. The customer hits a Stripe Payment Link and completes payment.**
+
+![Stripe Checkout page](screenshots/Stripe_Payment_Link.PNG)
+
+**2. Zapier catches the Stripe webhook, creates the next session
+(e.g. a Customer Portal session), and pushes the resulting session URL
+to the matching S2S Station.**
+
+![Zapier workflow: Catch Hook → Create Stripe Checkout Session → Forward Session URL to Session Station](screenshots/Zapier_SendToSession.PNG)
+
+**3. The customer lands on a stable S2S Station URL.
+S2S resolves it to the latest session URL pushed in step 2 and forwards.**
+
+![S2S Stations dashboard with live sends counters](screenshots/STS_SendToSession.PNG)
+
+S2S sits between the workflow engine (Zapier/Make/Pipedream) and the
+customer — providing a stable URL that no-code builders (Webflow, Carrd,
+Squarespace, …) can embed, while the actual destination is resolved at
+runtime. That's the gap workflow engines alone don't fill: they
+orchestrate well in the backend, but they don't give the customer a
+stable URL to be sent to when the destination URL is generated
+dynamically per session.
 
 ## What's in this repo
 
@@ -47,8 +70,20 @@ connected sequence of pages.
 
 - Active development: **December 2021 – late 2022**
 - Last build & deploy: **2022-05-03** (live on Firebase Hosting)
+- End-to-end loop verified through internal testing: 34 Customer-Portal
+  redirects and 45 Mailchimp-Landing redirects logged through the live
+  deploy
 - Original Firebase project no longer maintained
 - Frozen snapshot, not under active development
+
+## Why archived
+
+The end-to-end orchestration worked. What ended the project was
+distribution — reaching no-code site owners who'd wire a fourth tool
+into their stack as a solo builder. Today, AI-native tooling would cut
+the build effort to a fraction; the validation discipline learned in
+Digitale Leute School's PM Bootcamp would tackle distribution before
+code.
 
 ## What's been redacted
 

@@ -6,22 +6,22 @@
 
 ## The pitch in one paragraph
 
-Most SaaS products are built — UI, auth, billing, dashboards, the lot.
+Most SaaS products are built from scratch: UI, auth, billing, dashboards, the lot.
 Send-2-Session asked: do they have to be? Stripe already has a Checkout
 page. Mailchimp already has a campaign signup page. Calendly already has
 a booking page. What if you could string those existing third-party pages
-together by their URLs into a complete user flow — and skip building most
+together by their URLs into a complete user flow, and skip building most
 of the app? Send-2-Session is the orchestration layer that lets you
 define a "station" for each provider, extract the next session URL from
-its API response, and route the user onward — no website needed beyond a
+its API response, and route the user onward. No website needed beyond a
 landing page.
 
-## How it works — the Stripe → Zapier → S2S loop
+## How it works: the Stripe → Zapier → S2S loop
 
 A user defines a **flow** as a sequence of **stations**. Each station
 points at a third-party SaaS page (e.g. a Stripe Checkout link, a Stripe
 Customer Portal session, a Mailchimp signup form). The orchestration is
-invisible to the customer — they just click through what looks like a
+invisible to the customer. They just click through what looks like a
 connected sequence of pages.
 
 A live example, end-to-end:
@@ -42,7 +42,7 @@ S2S resolves it to the latest session URL pushed in step 2 and forwards.**
 ![S2S Stations dashboard with live sends counters](screenshots/STS_SendToSession.PNG)
 
 S2S sits between the workflow engine (Zapier/Make/Pipedream) and the
-customer — providing a stable URL that no-code builders (Webflow, Carrd,
+customer, providing a stable URL that no-code builders (Webflow, Carrd,
 Squarespace, …) can embed, while the actual destination is resolved at
 runtime. That's the gap workflow engines alone don't fill: they
 orchestrate well in the backend, but they don't give the customer a
@@ -53,8 +53,8 @@ dynamically per session.
 
 | Folder         | What it shows                                                                 |
 | ---            | ---                                                                           |
-| `src/`         | React 17 frontend (Material-UI 4) — landing, auth, station builder, session routing. |
-| `functions/`   | Firebase Cloud Functions — Firestore triggers and Express server for `/station/url/**` and `/station/customer/**` routes. |
+| `src/`         | React 17 frontend (Material-UI 4): landing, auth, station builder, session routing. |
+| `functions/`   | Firebase Cloud Functions: Firestore triggers and Express server for `/station/url/**` and `/station/customer/**` routes. |
 | `firebase.json`| Hosting + Functions + Firestore + Auth + Emulator configuration. |
 | `build/`       | Compiled production bundle from the May 3, 2022 deploy (preserved as-is). |
 
@@ -79,7 +79,7 @@ dynamically per session.
 ## Why archived
 
 The end-to-end orchestration worked. What ended the project was
-distribution — reaching no-code site owners who'd wire a fourth tool
+distribution: reaching no-code site owners who'd wire a fourth tool
 into their stack as a solo builder. Today, AI-native tooling would cut
 the build effort to a fraction; the validation discipline learned in
 Digitale Leute School's PM Bootcamp would tackle distribution before
@@ -89,8 +89,8 @@ code.
 
 For archive hygiene:
 
-- `src/firebase.js` — Web API key + project ID replaced with placeholders
-- `.firebaserc` — replaced by `.firebaserc.example`
+- `src/firebase.js`: Web API key + project ID replaced with placeholders
+- `.firebaserc`: replaced by `.firebaserc.example`
 - `firebase-emulators/` and `node_modules/` removed (regenerable)
 
 The compiled `build/` bundle is preserved as the original deploy artifact.
@@ -99,7 +99,7 @@ enforced via Firestore Rules); they are redacted in source for repo hygiene.
 
 ## Running locally
 
-This is an archive — running it requires a fresh Firebase project. Steps:
+This is an archive. Running it requires a fresh Firebase project. Steps:
 
 1. Create a new Firebase project (Firestore + Auth + Functions)
 2. Copy your config into `src/firebase.js`
